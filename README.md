@@ -28,15 +28,15 @@ The Library Management System is a console-based Python application that helps u
 
 3. Run the application:
 
-```bash
-python main.py
-```
+   ```bash
+   python main.py
+   ```
 4. Follow the on-screen instructions to manage your library, including adding, removing, and updating books.
 
 ### Testing
 
 The project includes tests to ensure functionality works as expected.
 
-```bash
-python tests_main.py
-```
+   ```bash
+   python tests_main.py
+   ```
