@@ -208,7 +208,14 @@ def main():
                 library.add_book(title, author, year)
 
             case "2":
-                book_id = int(input("Введите ID книги для удаления: "))
+                # book_id = int(input("Введите ID книги для удаления: "))
+                while True:
+                    try:
+                        book_id = int(input("Введите ID книги для удаления: "))
+                    except ValueError:
+                        print("Некорректный ID.")
+                        continue
+                    break
                 library.delete_book(book_id)
 
             case "3":
