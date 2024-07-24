@@ -1,14 +1,29 @@
 # -*- coding: utf-8 -*-
 import json
 import os
+import time
 
 
 # Define the file name where the library data will be stored
 LIBRARY_FILE = "library.json"
 
 
-# Book class to represent each book in the library
 class Book:
+    """
+    A class used to represent a Book.
+
+    Attributes
+    ----------
+    title : str
+        the title of the book
+    author : str
+        the author of the book
+    year : int
+        the year the book was published
+    status : str
+        the status of the book (available or checked out)
+    """
+
     def __init__(
         self,
         title: str,
@@ -25,12 +40,15 @@ class Book:
 
     @staticmethod
     def generate_id() -> int:
-        # Generate a unique id based on the current timestamp and a random element
-        import time
-
+        """
+        Generate a unique id based on the current timestamp and a random element
+        """
         return int(time.time() * 1000)
 
     def to_dict(self) -> dict:
+        """
+        Dictionary representation of the book
+        """
         return {
             "id": self.id,
             "title": self.title,
@@ -41,25 +59,37 @@ class Book:
 
     @classmethod
     def from_dict(cls, data: dict):
+        """
+        Create Book instance from a dictionary
+        """
         return cls(
             data["title"], data["author"], data["year"], data["id"], data["status"]
         )
 
 
-# Library class to manage the collection of books
 class Library:
+    """
+    Library class to manage the collection of books
+    """
+
     def __init__(self, library_file: str = LIBRARY_FILE):
         self.library_file = library_file
         self.books = []
         self.load_books()
 
     def load_books(self):
+        """
+        Load books from a json file
+        """
         if os.path.exists(self.library_file):
             with open(self.library_file, "r", encoding="utf-8") as file:
                 data = json.load(file)
                 self.books = [Book.from_dict(book) for book in data]
 
     def save_books(self):
+        """
+        Save books to a json file
+        """
         with open(self.library_file, "w", encoding="utf-8") as file:
             json.dump(
                 [book.to_dict() for book in self.books],
@@ -69,12 +99,18 @@ class Library:
             )
 
     def add_book(self, title: str, author: str, year: int):
+        """
+        Add a book to the library
+        """
         book = Book(title.strip(), author.strip(), year)
         self.books.append(book)
         self.save_books()
         print(f"Книга '{title}' добавлена с ID {book.id}.")
 
     def delete_book(self, book_id: int):
+        """
+        Delete a book from the library
+        """
         book = self.find_book_by_id(book_id)
         if book:
             self.books.remove(book)
@@ -84,12 +120,18 @@ class Library:
             print(f"Книга с ID {book_id} не найдена.")
 
     def find_book_by_id(self, book_id: int) -> Book:
+        """
+        Find a book in the library by ID
+        """
         for book in self.books:
             if book.id == book_id:
                 return book
         return None
 
     def search_books(self, title: str = None, author: str = None, year: int = None):
+        """
+        Search books by title, author and year
+        """
         results = [
             book
             for book in self.books
@@ -106,12 +148,18 @@ class Library:
         self.display_books(results)
 
     def display_book(self, book_id: int):
+        """
+        Display a book in the library by ID
+        """
         book = self.find_book_by_id(book_id)
         print(
             f"ID: {book.id}, Title: {book.title}, Author: {book.author}, Year: {book.year}, Status: {book.status}"
         )
 
     def display_books(self, books=None):
+        """
+        Display all books in the library
+        """
         books = books or self.books
         for book in books:
             print(
@@ -119,6 +167,9 @@ class Library:
             )
 
     def update_book_status(self, book_id: int, status: str):
+        """
+        Update the status of a book by ID
+        """
         book = self.find_book_by_id(book_id)
 
         if book:
