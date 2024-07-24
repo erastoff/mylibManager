@@ -35,8 +35,8 @@ The Library Management System is a console-based Python application that helps u
 
 ### Testing
 
-The project includes tests to ensure functionality works as expected.
+- The project includes tests to ensure functionality works as expected.
 
    ```bash
-   python tests_main.py
+   python test_main.py
    ```
